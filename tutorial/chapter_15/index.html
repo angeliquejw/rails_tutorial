@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    
+      <base target="_blank"/>
+    
+    <title>B'more on Rails Workshop for Women</title>
+    <link href="/rails_tutorial/css/syntax/monokai.css" type="text/css" rel="stylesheet"/>
+    <link href="/rails_tutorial/css/base.css" type="text/css" rel="stylesheet"/>
+    <script src="/rails_tutorial/js/jquery.min.js"></script>
+    <script src="/rails_tutorial/js/tutorial_nav.js"></script>
+    <script src="/rails_tutorial/js/progress.js"></script>
+  </head>
+
+<body>
+  <div class="container" data-chapter="15">
+    <nav>
+      
+<div class="tutorial_nav">
+  <div class="progress"><div class="progress_bar"></div></div>
+  <ul id="menu-list">
+    
+     <li>
+      <a href="/rails_tutorial/tutorial/chapter_01/" target="_self">
+        1 Getting Started from Scratch
+       </a>
+     </li>
+    
+     <li>
+      <a href="/rails_tutorial/tutorial/chapter_02/" target="_self">
+        2 Creating the First Table in Your Database
+       </a>
+     </li>
+    
+     <li>
+      <a href="/rails_tutorial/tutorial/chapter_03/" target="_self">
+        3 Viewing Data in the Browser
+       </a>
+     </li>
+    
+     <li>
+      <a href="/rails_tutorial/tutorial/chapter_04/" target="_self">
+        4 Showing Detailed Information in the Browser
+       </a>
+     </li>
+    
+     <li>
+      <a href="/rails_tutorial/tutorial/chapter_05/" target="_self">
+        5 Creating Books Through the Browser
+       </a>
+     </li>
+    
+     <li>
+      <a href="/rails_tutorial/tutorial/chapter_06/" target="_self">
+        6 Updating Books
+       </a>
+     </li>
+    
+     <li>
+      <a href="/rails_tutorial/tutorial/chapter_07/" target="_self">
+        7 Styling Your Bookstore
+       </a>
+     </li>
+    
+     <li>
+      <a href="/rails_tutorial/tutorial/chapter_08/" target="_self">
+        8 Deleting a Book
+       </a>
+     </li>
+    
+     <li>
+      <a href="/rails_tutorial/tutorial/chapter_09/" target="_self">
+        9 Reviewing a Book
+       </a>
+     </li>
+    
+     <li>
+      <a href="/rails_tutorial/tutorial/chapter_10/" target="_self">
+        10 Showing Reviews
+       </a>
+     </li>
+    
+     <li>
+      <a href="/rails_tutorial/tutorial/chapter_11/" target="_self">
+        11 Adding Reviews from the Browser
+       </a>
+     </li>
+    
+     <li>
+      <a href="/rails_tutorial/tutorial/chapter_12/" target="_self">
+        12 Adding Users to Your Database
+       </a>
+     </li>
+    
+     <li>
+      <a href="/rails_tutorial/tutorial/chapter_13/" target="_self">
+        13 Logging In and Logging Out
+       </a>
+     </li>
+    
+     <li>
+      <a href="/rails_tutorial/tutorial/chapter_14/" target="_self">
+        14 Logged In vs Logged Out Users
+       </a>
+     </li>
+    
+     <li>
+      <a href="/rails_tutorial/tutorial/chapter_15/" target="_self">
+        15 Associating Reviews with Users
+       </a>
+     </li>
+    
+   </ul>
+
+  <div class="menu" data-toggle="#menu-list">
+    <div class="hamburger-icon"> &#9776</div>
+    <div class="menu-title">Chapter 15 -- Associating Reviews with Users</div>
+  </div>
+</div>
+
+    </nav>
+    <div class="content">
+      <div class="aside">
+<p>Now that you can keep track of logged in users, you can keep track of their actions. A great example where this could be useful is with your reviews. Wouldn’t it be nice to know which users are leaving which reviews?</p>
+</div>
+
+<div class="steps">
+<div class="list">
+<ol>
+  <li>
+    <p>To track which users are leaving which reviews, we need to establish a relationship between users and reviews.</p>
+
+    <p>A user can leave many reviews, and a review can only be written by one user. Does this sound familiar?</p>
+  </li>
+  <li>
+    <p>You’ve already defined a similar relaltionship between books and reviews.</p>
+
+    <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_many</span> <span class="ss">:reviews</span>
+<span class="k">end</span>
+</code></pre>
+    </div>
+
+    <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Review</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">belongs_to</span> <span class="ss">:book</span>
+<span class="k">end</span>
+</code></pre>
+    </div>
+
+    <p>A book has many reviews, and a review belongs to a book.</p>
+  </li>
+  <li>
+    <p>Open the <code class="highlighter-rouge">User</code> class (<code class="highlighter-rouge">app/models/user.rb</code>) in your text editor.</p>
+
+    <p>Using the <code class="highlighter-rouge">Book</code> class as an example, update <code class="highlighter-rouge">User</code> so a user has many reviews.</p>
+  </li>
+</ol>
+</div>
+</div>
+
+<div class="steps">
+<div class="list">
+<ol>
+  <li>
+    <p>What do your changes look like? You should have added the following line to <code class="highlighter-rouge">User</code>:</p>
+
+    <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">has_many</span> <span class="ss">:reviews</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>If you didn’t already, make this change to <code class="highlighter-rouge">User</code>.</p>
+  </li>
+  <li>
+    <p>Save your changes.</p>
+  </li>
+</ol>
+</div>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5</pre></td><td class="code"><pre>  <span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+    <span class="n">has_secure_password</span>
+
+    <span class="n">has_many</span> <span class="ss">:reviews</span>
+  <span class="k">end</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></figure>
+
+</div>
+
+<div class="steps">
+<div class="list">
+<ol>
+  <li>
+    <p>Now that we’ve defined a relationship between users and reviews, let’s see what we can do with it on the <code class="highlighter-rouge">rails console</code>.</p>
+  </li>
+  <li>
+    <p>Open Terminal, make sure you’re in the <code class="highlighter-rouge">bookstore</code> directory, and start the <code class="highlighter-rouge">rails console</code>.</p>
+  </li>
+  <li>
+    <p>Find your first user and assign it to a variable called <code class="highlighter-rouge">my_first_user</code>.</p>
+  </li>
+  <li>
+    <p>Now, try running <code class="highlighter-rouge">my_first_user.reviews</code>.</p>
+  </li>
+  <li>
+    <p>Yikes! That looks like a gnarly error… 😅</p>
+
+    <p>The <code class="highlighter-rouge">ActiveRecord::StatementInvalid</code> error is giving you hint to what’s going on. Burried inside the error, you have this message:</p>
+
+    <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">no</span> <span class="n">such</span> <span class="ss">column: </span><span class="n">reviews</span><span class="p">.</span><span class="nf">user_id</span>
+</code></pre>
+    </div>
+
+    <p>We’ve defined the relationship between users and reviews on the model level, but we haven’t defined it on the database level.</p>
+
+    <p>Since we said a user can have many reviews, Rails is expecting the reviews table to have a <code class="highlighter-rouge">user_id</code> column. Let’s add it!</p>
+  </li>
+  <li>
+    <p>Before you continue, exit the <code class="highlighter-rouge">rails console</code>.</p>
+  </li>
+</ol>
+</div>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">  <span class="err">›</span> <span class="n">pwd</span>
+  <span class="sr">/Users/</span><span class="n">awesomesauce</span><span class="o">/</span><span class="no">Projects</span><span class="o">/</span><span class="n">bookstore</span>
+  <span class="err">›</span> <span class="n">rails</span> <span class="n">console</span>
+  <span class="no">Loading</span> <span class="n">development</span> <span class="n">environment</span> <span class="p">(</span><span class="no">Rails</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span>
+
+  <span class="o">&gt;&gt;</span> <span class="n">my_first_user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">first</span>
+    <span class="no">User</span> <span class="no">Load</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span>  <span class="s2">"users"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"users"</span> <span class="no">ORDER</span> <span class="no">BY</span> <span class="s2">"users"</span><span class="o">.</span><span class="s2">"id"</span> <span class="no">ASC</span> <span class="no">LIMIT</span> <span class="p">?</span>  <span class="p">[[</span><span class="s2">"LIMIT"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+  <span class="o">=&gt;</span> <span class="c1">#&lt;User id: 1, username: "CatPower", password_digest: "$2a$10$T9KFCyIrtgFhBtEixMYm9e757ZXa7UlBVOyaAzCtbwt...", created_at: "2017-01-13 02:57:39", updated_at: "2017-01-13 02:57:39"&gt;</span>
+
+  <span class="o">&gt;&gt;</span> <span class="n">my_first_user</span><span class="p">.</span><span class="nf">reviews</span>
+    <span class="no">Review</span> <span class="no">Load</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span> <span class="s2">"reviews"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"reviews"</span> <span class="no">WHERE</span> <span class="s2">"reviews"</span><span class="o">.</span><span class="s2">"user_id"</span> <span class="o">=</span> <span class="p">?</span>  <span class="p">[[</span><span class="s2">"user_id"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+  <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">StatementInvalid</span><span class="p">:</span> <span class="no">SQLite3</span><span class="o">::</span><span class="no">SQLException</span><span class="p">:</span> <span class="n">no</span> <span class="n">such</span> <span class="ss">column: </span><span class="n">reviews</span><span class="p">.</span><span class="nf">user_id</span><span class="p">:</span> <span class="no">SELECT</span> <span class="s2">"reviews"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"reviews"</span> <span class="no">WHERE</span> <span class="s2">"reviews"</span><span class="o">.</span><span class="s2">"user_id"</span> <span class="o">=</span> <span class="p">?</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+
+  <span class="nf">&gt;</span><span class="o">&gt;</span> <span class="nb">exit</span></code></pre></figure>
+
+</div>
+
+<div class="steps">
+<div class="list">
+<ol>
+  <li>
+    <p>To add a <code class="highlighter-rouge">user_id</code> column to the <code class="highlighter-rouge">reviews</code> table, we’ll need to create a new migration.</p>
+  </li>
+  <li>
+    <p>In Terminal, run the following command:</p>
+
+    <div class="language-shell highlighter-rouge"><pre class="highlight"><code>rails generate migration add_user_id_to_reviews
+</code></pre>
+    </div>
+
+    <p>This will generate a new timestamped migration file named <code class="highlighter-rouge">AddUserIdtoReviews</code>. It’s filename will be something along the lines of <code class="highlighter-rouge">db/migrate/TIMESTAMP_add_user_id_to_reviews.rb</code></p>
+  </li>
+</ol>
+</div>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">  › rails generate migration add_user_id_to_reviews
+        invoke  active_record
+        create    db/migrate/20170124223830_add_user_id_to_reviews.rb</code></pre></figure>
+
+</div>
+
+<div class="steps">
+<div class="list">
+<ol>
+  <li>
+    <p>The <code class="highlighter-rouge">AddUserIdtoReviews</code> migration will be very similiar to another migration you’ve created. Can you think of which one?</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">AddUserIdtoReviews</code> is gonna look a lot like <code class="highlighter-rouge">AddBookIdToReviews</code>.</p>
+
+    <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">AddBookIdToReviews</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span><span class="p">[</span><span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="p">]</span>
+  <span class="k">def</span> <span class="nf">change</span>
+    <span class="n">add_column</span> <span class="ss">:reviews</span><span class="p">,</span> <span class="ss">:book_id</span><span class="p">,</span> <span class="ss">:integer</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+    </div>
+
+    <p>You added a <code class="highlighter-rouge">book_id</code> column to the <code class="highlighter-rouge">reviews</code> table because you wanted to define the relationship between books and reviews on the database level. Remember, a book can have many reviews.</p>
+
+    <p>We want to do the same thing in <code class="highlighter-rouge">AddUserIdtoReviews</code>, except we’re adding a <code class="highlighter-rouge">user_id</code> to <code class="highlighter-rouge">reviews</code>.</p>
+  </li>
+  <li>
+    <p>Using this as an example, update the <code class="highlighter-rouge">change</code> method of the <code class="highlighter-rouge">AddUserIdtoReviews</code> migration to add a <code class="highlighter-rouge">user_id</code> column to the <code class="highlighter-rouge">reviews</code> table. The <code class="highlighter-rouge">user_id</code> column should be an integer column.</p>
+  </li>
+</ol>
+</div>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">  <span class="k">class</span> <span class="nc">AddUserIdToReviews</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span><span class="p">[</span><span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">change</span>
+    <span class="k">end</span>
+  <span class="k">end</span></code></pre></figure>
+
+</div>
+
+<div class="steps">
+<div class="list">
+<ol>
+  <li>
+    <p>What does your change look like? You should’ve added the following line to the <code class="highlighter-rouge">change</code> method:</p>
+
+    <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">add_column</span> <span class="ss">:reviews</span><span class="p">,</span> <span class="ss">:user_id</span><span class="p">,</span> <span class="ss">:integer</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>If you didn’t already, add this line, save your changes, and run the migration.</p>
+  </li>
+</ol>
+</div>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">  <span class="k">class</span> <span class="nc">AddUserIdToReviews</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span><span class="p">[</span><span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">change</span>
+      <span class="n">add_column</span> <span class="ss">:reviews</span><span class="p">,</span> <span class="ss">:user_id</span><span class="p">,</span> <span class="ss">:integer</span>
+    <span class="k">end</span>
+  <span class="k">end</span></code></pre></figure>
+
+</div>
+
+<div class="steps">
+<div class="list">
+<ol>
+  <li>
+    <p>Now that we’ve defined the relationship between users and reviews on both the model <strong>and</strong> the database levels, we can go back to exploring the relationship on the <code class="highlighter-rouge">rails console</code>.</p>
+  </li>
+  <li>
+    <p>Go to Terminal and start the <code class="highlighter-rouge">rails console</code>.</p>
+  </li>
+  <li>
+    <p>Assign your first user to a variable called <code class="highlighter-rouge">my_first_user</code>.</p>
+  </li>
+  <li>
+    <p>Now, try running <code class="highlighter-rouge">my_first_user.reviews</code>.</p>
+
+    <p>You get an empty collection because <code class="highlighter-rouge">my_first_user</code> doesn’t have any reviews. Let’s change that!</p>
+  </li>
+  <li>
+    <p>Assign your first book to a variable called <code class="highlighter-rouge">my_first_book</code>.</p>
+  </li>
+  <li>
+    <p>Now, run the following code to create a new review for <code class="highlighter-rouge">my_first_book</code> that will also be associated with <code class="highlighter-rouge">my_first_user</code>.</p>
+
+    <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">my_first_book</span><span class="p">.</span><span class="nf">reviews</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">body: </span><span class="s2">"This review was written by a user!"</span><span class="p">,</span> <span class="ss">user_id: </span><span class="n">my_first_user</span><span class="p">.</span><span class="nf">id</span><span class="p">)</span>
+</code></pre>
+    </div>
+
+    <p>By running <code class="highlighter-rouge">my_first_book.reviews.create</code>, we’re creating a new review for <code class="highlighter-rouge">my_first_book</code>.</p>
+
+    <p>On the new review, we’re setting a <code class="highlighter-rouge">body</code> and a <code class="highlighter-rouge">user_id</code>. The <code class="highlighter-rouge">user_id</code> is set to <code class="highlighter-rouge">my_first_user</code>’s id so the review can be assigned to <code class="highlighter-rouge">my_first_user</code>.</p>
+  </li>
+  <li>
+    <p>Now that <code class="highlighter-rouge">my_first_user</code> has a review, try running <code class="highlighter-rouge">my_first_user.reviews</code> again.</p>
+
+    <p><em>I thought <code class="highlighter-rouge">my_first_user</code> would have reviews 😔</em></p>
+
+    <p>But <code class="highlighter-rouge">my_first_user</code> <em>does</em> have reviews!</p>
+
+    <p><code class="highlighter-rouge">my_first_user.reviews</code> is still returning an empty collection because <code class="highlighter-rouge">my_first_user</code> doesn’t have the new data.</p>
+
+    <p>First, run <code class="highlighter-rouge">my_first_user.reload</code>. Then, you can run <code class="highlighter-rouge">my_first_user.reviews</code>.</p>
+  </li>
+  <li>
+    <p>Yay! 🎉</p>
+  </li>
+</ol>
+</div>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">  <span class="err">›</span> <span class="n">rails</span> <span class="n">console</span>
+  <span class="no">Loading</span> <span class="n">development</span> <span class="n">environment</span> <span class="p">(</span><span class="no">Rails</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span>
+  <span class="o">&gt;&gt;</span> <span class="n">my_first_user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">first</span>
+    <span class="no">User</span> <span class="no">Load</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span>  <span class="s2">"users"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"users"</span> <span class="no">ORDER</span> <span class="no">BY</span> <span class="s2">"users"</span><span class="o">.</span><span class="s2">"id"</span> <span class="no">ASC</span> <span class="no">LIMIT</span> <span class="p">?</span>  <span class="p">[[</span><span class="s2">"LIMIT"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+
+  <span class="o">=&gt;</span> <span class="c1">#&lt;User id: 1, username: "CatPower", password_digest: "$2a$10$T9KFCyIrtgFhBtEixMYm9e757ZXa7UlBVOyaAzCtbwt...", created_at: "2017-01-13 02:57:39", updated_at: "2017-01-13 02:57:39"&gt;</span>
+
+  <span class="o">&gt;&gt;</span> <span class="n">my_first_user</span><span class="p">.</span><span class="nf">reviews</span>
+    <span class="no">Review</span> <span class="no">Load</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span> <span class="s2">"reviews"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"reviews"</span> <span class="no">WHERE</span> <span class="s2">"reviews"</span><span class="o">.</span><span class="s2">"user_id"</span> <span class="o">=</span> <span class="p">?</span>  <span class="p">[[</span><span class="s2">"user_id"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+  <span class="o">=&gt;</span> <span class="c1">#&lt;ActiveRecord::Associations::CollectionProxy []&gt;</span>
+
+  <span class="o">&gt;&gt;</span> <span class="n">my_first_book</span> <span class="o">=</span> <span class="no">Book</span><span class="p">.</span><span class="nf">first</span>
+    <span class="no">Book</span> <span class="no">Load</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span>  <span class="s2">"books"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"books"</span> <span class="no">ORDER</span> <span class="no">BY</span> <span class="s2">"books"</span><span class="o">.</span><span class="s2">"id"</span> <span class="no">ASC</span> <span class="no">LIMIT</span> <span class="p">?</span>  <span class="p">[[</span><span class="s2">"LIMIT"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+  <span class="o">=&gt;</span> <span class="c1">#&lt;Book id: 1, title: "why's (poignant) Guide to Ruby", author: "why the lucky stiff", price_cents: 100, created_at: "2016-12-26 15:51:15", updated_at: "2016-12-30 20:29:14", quantity: 500, description: "Chunky Bacon!"&gt;</span>
+
+  <span class="o">&gt;&gt;</span> <span class="n">my_first_book</span><span class="p">.</span><span class="nf">reviews</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">body: </span><span class="s2">"This review was written by a user!"</span><span class="p">,</span> <span class="ss">user_id: </span><span class="n">my_first_user</span><span class="p">.</span><span class="nf">id</span><span class="p">)</span>
+     <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="n">ms</span><span class="p">)</span>  <span class="k">begin</span> <span class="n">transaction</span>
+    <span class="no">SQL</span> <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="n">ms</span><span class="p">)</span>  <span class="no">INSERT</span> <span class="no">INTO</span> <span class="s2">"reviews"</span> <span class="p">(</span><span class="s2">"body"</span><span class="p">,</span> <span class="s2">"created_at"</span><span class="p">,</span> <span class="s2">"updated_at"</span><span class="p">,</span> <span class="s2">"book_id"</span><span class="p">,</span> <span class="s2">"user_id"</span><span class="p">)</span> <span class="no">VALUES</span> <span class="p">(</span><span class="sc">?,</span> <span class="sc">?,</span> <span class="sc">?,</span> <span class="sc">?,</span> <span class="sc">?)</span>  <span class="p">[[</span><span class="s2">"body"</span><span class="p">,</span> <span class="s2">"This review was written by a user!"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"created_at"</span><span class="p">,</span> <span class="mi">2017</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mi">25</span> <span class="mo">00</span><span class="p">:</span><span class="mi">46</span><span class="p">:</span><span class="mi">42</span> <span class="no">UTC</span><span class="p">],</span> <span class="p">[</span><span class="s2">"updated_at"</span><span class="p">,</span> <span class="mi">2017</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mi">25</span> <span class="mo">00</span><span class="p">:</span><span class="mi">46</span><span class="p">:</span><span class="mi">42</span> <span class="no">UTC</span><span class="p">],</span> <span class="p">[</span><span class="s2">"book_id"</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="s2">"user_id"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+     <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="n">ms</span><span class="p">)</span>  <span class="n">commit</span> <span class="n">transaction</span>
+  <span class="o">=&gt;</span> <span class="c1">#&lt;Review id: 8, body: "This review was written by a user!", created_at: "2017-01-25 00:46:42", updated_at: "2017-01-25 00:46:42", book_id: 1, user_id: 1&gt;</span>
+
+  <span class="o">&gt;&gt;</span> <span class="n">my_first_user</span><span class="p">.</span><span class="nf">reviews</span>
+  <span class="o">=&gt;</span> <span class="c1">#&lt;ActiveRecord::Associations::CollectionProxy []&gt;</span>
+
+  <span class="o">&gt;&gt;</span> <span class="n">my_first_user</span><span class="p">.</span><span class="nf">reload</span>
+    <span class="no">User</span> <span class="no">Load</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">4</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span>  <span class="s2">"users"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"users"</span> <span class="no">WHERE</span> <span class="s2">"users"</span><span class="o">.</span><span class="s2">"id"</span> <span class="o">=</span> <span class="p">?</span> <span class="no">LIMIT</span> <span class="p">?</span>  <span class="p">[[</span><span class="s2">"id"</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="s2">"LIMIT"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+  <span class="o">=&gt;</span> <span class="c1">#&lt;User id: 1, username: "CatPower", password_digest: "$2a$10$T9KFCyIrtgFhBtEixMYm9e757ZXa7UlBVOyaAzCtbwt...", created_at: "2017-01-13 02:57:39", updated_at: "2017-01-13 02:57:39"&gt;</span>
+
+  <span class="o">&gt;&gt;</span> <span class="n">my_first_user</span><span class="p">.</span><span class="nf">reviews</span>
+    <span class="no">Review</span> <span class="no">Load</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span> <span class="s2">"reviews"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"reviews"</span> <span class="no">WHERE</span> <span class="s2">"reviews"</span><span class="o">.</span><span class="s2">"user_id"</span> <span class="o">=</span> <span class="p">?</span>  <span class="p">[[</span><span class="s2">"user_id"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+  <span class="o">=&gt;</span> <span class="c1">#&lt;ActiveRecord::Associations::CollectionProxy [#&lt;Review id: 8, body: "This review was written by a user!", created_at: "2017-01-25 00:46:42", updated_at: "2017-01-25 00:48:55", book_id: 1, user_id: 1&gt;]&gt;</span></code></pre></figure>
+
+</div>
+
+<div class="steps">
+<div class="list">
+<ol>
+  <li>
+    <p>Now that your first user has a review, let’s take a closer look at that review.</p>
+  </li>
+  <li>
+    <p>Run the following code to assign the new review to a variable called <code class="highlighter-rouge">my_last_review</code>:</p>
+
+    <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">my_last_review</span> <span class="o">=</span> <span class="no">Review</span><span class="p">.</span><span class="nf">last</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">my_last_review</code> should have a <code class="highlighter-rouge">user_id</code>. Try running <code class="highlighter-rouge">my_last_review.user_id</code>.</p>
+
+    <p>This will return the <code class="highlighter-rouge">user_id</code> of the user who’s associated to <code class="highlighter-rouge">my_last_review</code>. Since we set it to <code class="highlighter-rouge">my_first_user</code>’s id, it will most likely be 1.</p>
+  </li>
+  <li>
+    <p>Now, let’s try to get the user from the review. Try running <code class="highlighter-rouge">my_last_review.user</code>.</p>
+  </li>
+  <li>
+    <p>Hmm…that’s an interesting error. Any thoughts on why you got a <code class="highlighter-rouge">NoMethodError</code>.</p>
+
+    <p>(The hint is in the error)</p>
+
+    <p>You got a <code class="highlighter-rouge">NoMethodError</code> because we haven’t completely defined the relationship between users and reviews. You defined part of the relationship - a user has many reviews. However, you haven’t defined the relationship between reviews and users.</p>
+  </li>
+</ol>
+</div>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">  <span class="o">&gt;&gt;</span> <span class="n">my_last_review</span> <span class="o">=</span> <span class="no">Review</span><span class="p">.</span><span class="nf">last</span>
+    <span class="no">Review</span> <span class="no">Load</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span>  <span class="s2">"reviews"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"reviews"</span> <span class="no">ORDER</span> <span class="no">BY</span> <span class="s2">"reviews"</span><span class="o">.</span><span class="s2">"id"</span> <span class="no">DESC</span> <span class="no">LIMIT</span> <span class="p">?</span>  <span class="p">[[</span><span class="s2">"LIMIT"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+  <span class="o">=&gt;</span> <span class="c1">#&lt;Review id: 8, body: "This review was written by a user!", created_at: "2017-01-25 00:46:42", updated_at: "2017-01-25 00:48:55", book_id: 1, user_id: 1&gt;</span>
+
+  <span class="o">&gt;&gt;</span> <span class="n">my_last_review</span><span class="p">.</span><span class="nf">user_id</span>
+  <span class="o">=&gt;</span> <span class="mi">1</span>
+
+  <span class="o">&gt;&gt;</span> <span class="n">my_last_review</span><span class="p">.</span><span class="nf">user</span>
+  <span class="no">NoMethodError</span><span class="p">:</span> <span class="n">undefined</span> <span class="nb">method</span> <span class="sb">`user' for #&lt;Review:0x007fce9e4a5b90&gt;
+  Did you mean?  user_id
+  ...</span></code></pre></figure>
+
+</div>
+
+<div class="steps">
+<div class="list">
+<ol>
+  <li>
+    <p>We need to define the relationship between reviews and users - a review belongs to a user.</p>
+  </li>
+  <li>
+    <p>Open <code class="highlighter-rouge">app/models/reviews.rb</code>. You might notice another relationship we already defined 😉</p>
+
+    <p>Since a review also belongs to a book, you previously added this line:</p>
+
+    <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">belongs_to</span> <span class="ss">:book</span>
+</code></pre>
+    </div>
+
+    <p>Now, we need to do the same thing for users.</p>
+  </li>
+  <li>
+    <p>Update <code class="highlighter-rouge">Review</code> so a review <code class="highlighter-rouge">belongs_to</code> a user.</p>
+  </li>
+</ol>
+</div>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3</pre></td><td class="code"><pre>  <span class="k">class</span> <span class="nc">Review</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+    <span class="n">belongs_to</span> <span class="ss">:book</span>
+  <span class="k">end</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></figure>
+
+</div>
+
+<div class="steps">
+<div class="list">
+<ol>
+  <li>
+    <p>That probably sounded more challenging than it was 😅</p>
+  </li>
+  <li>
+    <p>You should’ve added this line</p>
+
+    <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">belongs_to</span> <span class="ss">:user</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>If you didn’t already, add this line to <code class="highlighter-rouge">Review</code> and save your changes.</p>
+  </li>
+</ol>
+</div>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4</pre></td><td class="code"><pre>  <span class="k">class</span> <span class="nc">Review</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+    <span class="n">belongs_to</span> <span class="ss">:book</span>
+    <span class="n">belongs_to</span> <span class="ss">:user</span>
+  <span class="k">end</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></figure>
+
+</div>
+
+<div class="steps">
+<div class="list">
+<ol>
+  <li>
+    <p>Now, let’s see if we can’t get your last review’s user.</p>
+  </li>
+  <li>
+    <p>Go back to the <code class="highlighter-rouge">rails console</code> and run the following line to pull in your changes.</p>
+
+    <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">reload!</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Get your last review again and assign it to <code class="highlighter-rouge">my_last_review</code>.</p>
+  </li>
+  <li>
+    <p>Now, try running <code class="highlighter-rouge">my_last_review.user</code>.</p>
+  </li>
+  <li>
+    <p>Yayay!!!</p>
+
+    <p><img src="https://media.tenor.co/images/8eec658600640ea3f7f2f583f156f5cc/raw" alt="YES!" title="We should serve this file locally" /></p>
+  </li>
+  <li>
+    <p>Exit the <code class="highlighter-rouge">rails console</code>.</p>
+  </li>
+</ol>
+</div>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">  <span class="o">&gt;&gt;</span> <span class="n">reload!</span>
+  <span class="no">Reloading</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">=</span><span class="o">&gt;</span> <span class="kp">true</span>
+
+  <span class="o">&gt;&gt;</span> <span class="n">my_last_review</span> <span class="o">=</span> <span class="no">Review</span><span class="p">.</span><span class="nf">last</span>
+    <span class="no">Review</span> <span class="no">Load</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span>  <span class="s2">"reviews"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"reviews"</span> <span class="no">ORDER</span> <span class="no">BY</span> <span class="s2">"reviews"</span><span class="o">.</span><span class="s2">"id"</span> <span class="no">DESC</span> <span class="no">LIMIT</span> <span class="p">?</span>  <span class="p">[[</span><span class="s2">"LIMIT"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+  <span class="o">=&gt;</span> <span class="c1">#&lt;Review id: 8, body: "This review was written by a user!", created_at: "2017-01-25 00:46:42", updated_at: "2017-01-25 00:48:55", book_id: 1, user_id: 1&gt;</span>
+
+  <span class="o">&gt;&gt;</span> <span class="n">my_last_review</span><span class="p">.</span><span class="nf">user</span>
+    <span class="no">User</span> <span class="no">Load</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span>  <span class="s2">"users"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"users"</span> <span class="no">WHERE</span> <span class="s2">"users"</span><span class="o">.</span><span class="s2">"id"</span> <span class="o">=</span> <span class="p">?</span> <span class="no">LIMIT</span> <span class="p">?</span>  <span class="p">[[</span><span class="s2">"id"</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="s2">"LIMIT"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+  <span class="o">=&gt;</span> <span class="c1">#&lt;User id: 1, username: "CatPower", password_digest: "$2a$10$T9KFCyIrtgFhBtEixMYm9e757ZXa7UlBVOyaAzCtbwt...", created_at: "2017-01-13 02:57:39", updated_at: "2017-01-13 02:57:39"&gt;</span>
+
+  <span class="o">&gt;&gt;</span> <span class="nb">exit</span></code></pre></figure>
+
+</div>
+
+<div class="steps">
+<div class="list">
+<ol>
+  <li>
+    <p>Now that we have a way to assign reviews to their users, let’s update your bookstore so we always know who’s leaving reviews.</p>
+  </li>
+  <li>
+    <p>Do you remember how reviews get created when users visit your bookstore?</p>
+
+    <p>After a user has logged in, they can go to a book and click the “Add a Review” link. The link will take them to the new review page (<code class="highlighter-rouge">app/views/reviews/new.html.erb</code>).</p>
+
+    <p>Then, users write their reviews in the “Body” field of the new review form. When they’re done, they submit the form and its data by clicking the “Create Review” button.</p>
+
+    <p>The form gets submitted to the <code class="highlighter-rouge">ReviewsController</code> <code class="highlighter-rouge">create</code> method. Let’s take a look at it.</p>
+  </li>
+  <li>
+    <p>In you text editor, open the <code class="highlighter-rouge">ReviewsController</code> (<code class="highlighter-rouge">app/controllers/reviews_controller.rb</code>) and take a look at the <code class="highlighter-rouge">create</code> method.</p>
+
+    <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">create</span>
+  <span class="n">book</span> <span class="o">=</span> <span class="no">Book</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:book_id</span><span class="p">])</span>
+  <span class="n">book</span><span class="p">.</span><span class="nf">reviews</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="n">review_params</span><span class="p">)</span>
+  <span class="n">redirect_to</span> <span class="n">book_path</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+    </div>
+
+    <p>In the <code class="highlighter-rouge">create</code> method, you first find the book that’s being reviewed. After you get a hold of that book, you create a new review using <code class="highlighter-rouge">review_params</code>.</p>
+
+    <p><code class="highlighter-rouge">review_params</code> is a method that defines which of the form’s fields can be set on the new review.</p>
+
+    <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">review_params</span>
+  <span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:review</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:body</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+    </div>
+
+    <p>You set it up so the form must submit a <code class="highlighter-rouge">review</code> hash, and the only field you’re permitting in that hash is the <code class="highlighter-rouge">body</code> field.</p>
+  </li>
+  <li>
+    <p><em>This is great and all, but what does it have to do with assigning reviews to their users?</em></p>
+
+    <p>Right now the only thing we can set on new reviews is a <code class="highlighter-rouge">body</code>. If we want assign reviews to their users, we also need to be able to set the new review’s <code class="highlighter-rouge">user_id</code>.</p>
+
+    <p>This raises a couple of questions…</p>
+  </li>
+</ol>
+</div>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre></td><td class="code"><pre>  <span class="k">class</span> <span class="nc">ReviewsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+    <span class="n">before_action</span> <span class="ss">:verify_user_session</span>
+
+    <span class="k">def</span> <span class="nf">new</span>
+      <span class="vi">@book</span> <span class="o">=</span> <span class="no">Book</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:book_id</span><span class="p">])</span>
+      <span class="vi">@review</span> <span class="o">=</span> <span class="vi">@book</span><span class="p">.</span><span class="nf">reviews</span><span class="p">.</span><span class="nf">build</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">create</span>
+      <span class="n">book</span> <span class="o">=</span> <span class="no">Book</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:book_id</span><span class="p">])</span>
+      <span class="n">book</span><span class="p">.</span><span class="nf">reviews</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="n">review_params</span><span class="p">)</span>
+      <span class="n">redirect_to</span> <span class="n">book_path</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">review_params</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:review</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:body</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">verify_user_session</span>
+      <span class="k">if</span> <span class="n">session</span><span class="p">[</span><span class="ss">:user_id</span><span class="p">].</span><span class="nf">blank?</span>
+        <span class="n">flash</span><span class="p">[</span><span class="ss">:alert</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Please login to continue"</span>
+        <span class="n">redirect_to</span> <span class="n">new_session_path</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></figure>
+
+</div>
+
+<div class="steps">
+<div class="list">
+<ol>
+  <li>
+    <p>What are some questions that come to mind?</p>
+
+    <p>One question I can think of is how do we know what the new review’s <code class="highlighter-rouge">user_id</code> should be?</p>
+
+    <p>Well, logged in users are the only users who can create reviews, and we know when users are logged in!</p>
+
+    <p>When a user logs in, you save their id in the session hash as <code class="highlighter-rouge">user_id</code>.</p>
+
+    <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SessionsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+
+  <span class="nf">def</span> <span class="n">create</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">find_by</span><span class="p">(</span><span class="ss">username: </span><span class="n">params</span><span class="p">[</span><span class="ss">:session</span><span class="p">][</span><span class="ss">:username</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">user</span> <span class="o">&amp;&amp;</span> <span class="n">user</span><span class="p">.</span><span class="nf">authenticate</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:session</span><span class="p">][</span><span class="ss">:password</span><span class="p">])</span>
+      <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+      <span class="nf">session</span><span class="p">[</span><span class="ss">:user_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">user</span><span class="p">.</span><span class="nf">id</span>
+      <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+    <span class="nf">end</span>
+  <span class="k">end</span>
+
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span>
+</code></pre>
+    </div>
+
+    <p>The session hash is available in all your controllers, so we always know the logged in user’s id.</p>
+  </li>
+  <li>
+    <p>The next question I have is how are we going to set this thing?</p>
+
+    <p>🤔</p>
+
+    <p>What does the <code class="highlighter-rouge">ReviewsController</code> <code class="highlighter-rouge">create</code> method look like again?</p>
+
+    <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">create</span>
+  <span class="n">book</span> <span class="o">=</span> <span class="no">Book</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:book_id</span><span class="p">])</span>
+  <span class="n">book</span><span class="p">.</span><span class="nf">reviews</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="n">review_params</span><span class="p">)</span>
+  <span class="n">redirect_to</span> <span class="n">book_path</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+    </div>
+
+    <p>Right. To create a new review for the book being reviewed, we do <code class="highlighter-rouge">book.reviews.create</code>. We’re using <code class="highlighter-rouge">review_params</code> to decide which values can be set on the new review.</p>
+
+    <p>Maybe we should change <code class="highlighter-rouge">review_params</code>…</p>
+  </li>
+</ol>
+</div>
+</div>
+
+<div class="steps">
+<div class="list">
+<ol>
+  <li>
+    <p>Let’s change the <code class="highlighter-rouge">ReviewsController</code> <code class="highlighter-rouge">review_params</code> method!</p>
+
+    <p>Change <code class="highlighter-rouge">review_params</code> from</p>
+
+    <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">review_params</span>
+  <span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:review</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:body</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+    </div>
+
+    <p>to</p>
+
+    <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">review_params</span>
+  <span class="n">permitted_params</span> <span class="o">=</span> <span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:review</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:body</span><span class="p">)</span>
+  <span class="n">permitted_params</span><span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="ss">user_id: </span><span class="n">session</span><span class="p">[</span><span class="ss">:user_id</span><span class="p">])</span>
+<span class="k">end</span>
+</code></pre>
+    </div>
+
+    <p>We still need to use strong parameters to permit the form fields that’ll get set on the new review, but we’ll assign them to a variable called <code class="highlighter-rouge">permitted_params</code>.</p>
+
+    <p>Then, we’ll use <code class="highlighter-rouge">merge</code> to add <code class="highlighter-rouge">user_id</code> to <code class="highlighter-rouge">permitted_params</code>. <code class="highlighter-rouge">user_id</code> will be set to <code class="highlighter-rouge">session[:user_id]</code>.</p>
+  </li>
+  <li>
+    <p>Save your changes and start your application’s web server.</p>
+  </li>
+  <li>
+    <p>Now, login and write a new book review!</p>
+  </li>
+</ol>
+</div>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26</pre></td><td class="code"><pre>  <span class="k">class</span> <span class="nc">ReviewsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+    <span class="n">before_action</span> <span class="ss">:verify_user_session</span>
+
+    <span class="k">def</span> <span class="nf">new</span>
+      <span class="vi">@book</span> <span class="o">=</span> <span class="no">Book</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:book_id</span><span class="p">])</span>
+      <span class="vi">@review</span> <span class="o">=</span> <span class="vi">@book</span><span class="p">.</span><span class="nf">reviews</span><span class="p">.</span><span class="nf">build</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">create</span>
+      <span class="n">book</span> <span class="o">=</span> <span class="no">Book</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:book_id</span><span class="p">])</span>
+      <span class="n">book</span><span class="p">.</span><span class="nf">reviews</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="n">review_params</span><span class="p">)</span>
+      <span class="n">redirect_to</span> <span class="n">book_path</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">review_params</span>
+      <span class="n">permitted_params</span> <span class="o">=</span> <span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:review</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:body</span><span class="p">)</span>
+      <span class="n">permitted_params</span><span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="ss">user_id: </span><span class="n">session</span><span class="p">[</span><span class="ss">:user_id</span><span class="p">])</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">verify_user_session</span>
+      <span class="k">if</span> <span class="n">session</span><span class="p">[</span><span class="ss">:user_id</span><span class="p">].</span><span class="nf">blank?</span>
+        <span class="n">flash</span><span class="p">[</span><span class="ss">:alert</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Please login to continue"</span>
+        <span class="n">redirect_to</span> <span class="n">new_session_path</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></figure>
+
+</div>
+
+<div class="steps">
+<div class="list">
+<ol>
+  <li>
+    <p>Did you write a really inspiring review?? 😉</p>
+
+    <p>Let’s take a look at it on the <code class="highlighter-rouge">rails console</code>.</p>
+  </li>
+  <li>
+    <p>Stop your application’s web server and start the <code class="highlighter-rouge">rails console</code>.</p>
+  </li>
+  <li>
+    <p>Now, get your last review and assign it to a variable called <code class="highlighter-rouge">my_last_review</code>.</p>
+  </li>
+  <li>
+    <p>Let’s see who write your last review…</p>
+
+    <p>Run <code class="highlighter-rouge">my_last_review.user</code>.</p>
+
+    <p>Yay! I hope “CatPower” left a good review 😝</p>
+  </li>
+  <li>
+    <p>Exit the <code class="highlighter-rouge">rails console</code> and restart your application’s web server.</p>
+  </li>
+</ol>
+</div>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">  <span class="o">&gt;&gt;</span> <span class="n">my_last_review</span> <span class="o">=</span> <span class="no">Review</span><span class="p">.</span><span class="nf">last</span>
+    <span class="no">Review</span> <span class="no">Load</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span>  <span class="s2">"reviews"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"reviews"</span> <span class="no">ORDER</span> <span class="no">BY</span> <span class="s2">"reviews"</span><span class="o">.</span><span class="s2">"id"</span> <span class="no">DESC</span> <span class="no">LIMIT</span> <span class="p">?</span>  <span class="p">[[</span><span class="s2">"LIMIT"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+  <span class="o">=&gt;</span> <span class="c1">#&lt;Review id: 9, body: "New review, who this?", created_at: "2017-01-26 23:19:29", updated_at: "2017-01-26 23:19:29", book_id: 1, user_id: 1&gt;</span>
+
+  <span class="o">&gt;&gt;</span> <span class="n">my_last_review</span><span class="p">.</span><span class="nf">user</span>
+    <span class="no">User</span> <span class="no">Load</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span>  <span class="s2">"users"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"users"</span> <span class="no">WHERE</span> <span class="s2">"users"</span><span class="o">.</span><span class="s2">"id"</span> <span class="o">=</span> <span class="p">?</span> <span class="no">LIMIT</span> <span class="p">?</span>  <span class="p">[[</span><span class="s2">"id"</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="s2">"LIMIT"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+  <span class="o">=&gt;</span> <span class="c1">#&lt;User id: 1, username: "CatPower", password_digest: "$2a$10$T9KFCyIrtgFhBtEixMYm9e757ZXa7UlBVOyaAzCtbwt...", created_at: "2017-01-13 02:57:39", updated_at: "2017-01-13 02:57:39"&gt;</span>
+
+  <span class="o">&gt;&gt;</span> <span class="nb">exit</span></code></pre></figure>
+
+</div>
+
+<div class="steps">
+<div class="list">
+<ol>
+  <li>
+    <p>Now that we know who’s leaving reviews, let’s share that information with your bookstore’s visitors.</p>
+  </li>
+  <li>
+    <p>Do you remember where reviews are shown?</p>
+
+    <p>In your text editor, open <code class="highlighter-rouge">app/views/books/show.html.erb</code>.</p>
+  </li>
+  <li>
+    <p>Towards the end of the template, you’re showing all of a books reviews in an unordered list. Let’s include review usernames in the unordered list.</p>
+
+    <p>Change the reviews unordered list from</p>
+
+    <div class="language-erb highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;ul&gt;</span>
+  <span class="cp">&lt;%</span> <span class="vi">@book</span><span class="p">.</span><span class="nf">reviews</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">review</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;li&gt;</span> <span class="cp">&lt;%=</span> <span class="n">review</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span> <span class="nt">&lt;/li&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</code></pre>
+    </div>
+
+    <p>to</p>
+
+    <div class="language-erb highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;ul&gt;</span>
+  <span class="cp">&lt;%</span> <span class="vi">@book</span><span class="p">.</span><span class="nf">reviews</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">review</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">if</span><span class="p">(</span><span class="n">review</span><span class="p">.</span><span class="nf">user</span><span class="p">.</span><span class="nf">present?</span><span class="p">)</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;li&gt;</span> <span class="cp">&lt;%=</span> <span class="n">review</span><span class="p">.</span><span class="nf">user</span><span class="p">.</span><span class="nf">username</span> <span class="cp">%&gt;</span> - <span class="cp">&lt;%=</span> <span class="n">review</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span> <span class="nt">&lt;/li&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;li&gt;</span> Anonymous - <span class="cp">&lt;%=</span> <span class="n">review</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span> <span class="nt">&lt;/li&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</code></pre>
+    </div>
+
+    <p>We’ll show the usernames for reviews who have users. However, you probably have some older reviews in your database that don’t have users. When that happens, we’ll show “Anonymous” instead.</p>
+  </li>
+  <li>
+    <p>Save your changes and visit a book with reviews. You should see a mix of anonymous and not so anonymous users that have left behind some reviews 😊</p>
+  </li>
+  <li>
+    <p>Try adding new reviews. If you’re still logged in as “CatPower”, she’ll start getting a lot of reviews in her name…</p>
+  </li>
+  <li>
+    <p>When you’re done, stop your application’s web server.</p>
+  </li>
+</ol>
+</div>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37</pre></td><td class="code"><pre>  <span class="nt">&lt;dl&gt;</span>
+    <span class="nt">&lt;dt&gt;</span>Id<span class="nt">&lt;/dt&gt;</span>
+    <span class="nt">&lt;dd&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@book</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="nt">&lt;/dd&gt;</span>
+
+    <span class="nt">&lt;dt&gt;</span>Title<span class="nt">&lt;/dt&gt;</span>
+    <span class="nt">&lt;dd&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@book</span><span class="p">.</span><span class="nf">title</span> <span class="cp">%&gt;</span><span class="nt">&lt;/dd&gt;</span>
+
+    <span class="nt">&lt;dt&gt;</span>Author<span class="nt">&lt;/dt&gt;</span>
+    <span class="nt">&lt;dd&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@book</span><span class="p">.</span><span class="nf">author</span> <span class="cp">%&gt;</span><span class="nt">&lt;/dd&gt;</span>
+
+    <span class="nt">&lt;dt&gt;</span>Price<span class="nt">&lt;/dt&gt;</span>
+    <span class="nt">&lt;dd&gt;</span><span class="cp">&lt;%=</span> <span class="n">number_to_currency</span><span class="p">(</span><span class="vi">@book</span><span class="p">.</span><span class="nf">price_cents</span> <span class="o">/</span> <span class="mi">100</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="nt">&lt;/dd&gt;</span>
+
+    <span class="nt">&lt;dt&gt;</span>Quantity<span class="nt">&lt;/dt&gt;</span>
+    <span class="nt">&lt;dd&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@book</span><span class="p">.</span><span class="nf">quantity</span> <span class="cp">%&gt;</span><span class="nt">&lt;/dd&gt;</span>
+
+    <span class="nt">&lt;dt&gt;</span>Description<span class="nt">&lt;/dt&gt;</span>
+    <span class="nt">&lt;dd&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@book</span><span class="p">.</span><span class="nf">description</span> <span class="cp">%&gt;</span><span class="nt">&lt;/dd&gt;</span>
+  <span class="nt">&lt;/dl&gt;</span>
+
+  <span class="nt">&lt;p&gt;</span> Number of reviews: <span class="cp">&lt;%=</span> <span class="vi">@book</span><span class="p">.</span><span class="nf">reviews</span><span class="p">.</span><span class="nf">count</span> <span class="cp">%&gt;</span> <span class="nt">&lt;/p&gt;</span>
+
+  <span class="nt">&lt;ul&gt;</span>
+    <span class="cp">&lt;%</span> <span class="vi">@book</span><span class="p">.</span><span class="nf">reviews</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">review</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="k">if</span><span class="p">(</span><span class="n">review</span><span class="p">.</span><span class="nf">user</span><span class="p">.</span><span class="nf">present?</span><span class="p">)</span> <span class="cp">%&gt;</span>
+        <span class="nt">&lt;li&gt;</span> <span class="cp">&lt;%=</span> <span class="n">review</span><span class="p">.</span><span class="nf">user</span><span class="p">.</span><span class="nf">username</span> <span class="cp">%&gt;</span> - <span class="cp">&lt;%=</span> <span class="n">review</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span> <span class="nt">&lt;/li&gt;</span>
+      <span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span>
+        <span class="nt">&lt;li&gt;</span> Anonymous - <span class="cp">&lt;%=</span> <span class="n">review</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span> <span class="nt">&lt;/li&gt;</span>
+      <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/ul&gt;</span>
+
+  <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">session</span><span class="p">[</span><span class="ss">:user_id</span><span class="p">].</span><span class="nf">present?</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">link_to</span><span class="p">(</span><span class="s2">"Edit book"</span><span class="p">,</span> <span class="n">edit_book_path</span><span class="p">(</span><span class="vi">@book</span><span class="p">),</span> <span class="ss">class: </span><span class="s2">"button"</span><span class="p">)</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">link_to</span><span class="p">(</span><span class="s2">"Add a Review"</span><span class="p">,</span> <span class="n">new_book_review_path</span><span class="p">(</span><span class="vi">@book</span><span class="p">),</span> <span class="ss">class: </span><span class="s2">"button"</span><span class="p">)</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">button_to</span><span class="p">(</span><span class="s2">"Delete Book"</span><span class="p">,</span> <span class="n">book_path</span><span class="p">(</span><span class="vi">@book</span><span class="p">),</span> <span class="ss">method: :delete</span><span class="p">,</span> <span class="ss">class: </span><span class="s2">"button danger"</span><span class="p">)</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></figure>
+
+</div>
+
+      <div class="tutorial-button-group">
+  
+    
+      <a href="/rails_tutorial/tutorial/chapter_14/" target="_self">
+        <div class="back-button">
+          Chapter 14
+        </div>
+      </a>
+    
+    
+  
+</div>
+
+    </div>
+  </div>
+<footer>
+  <div class="container">
+    <a href="http://bmoreonrails.org/"><img src="/rails_tutorial/assets/icons/bmore.png"></a>
+    <a href="https://github.com/bmoreonrails/rails_tutorial"><img class="icon" src="/rails_tutorial/assets/icons/github.png"></a>
+    <a href="https://twitter.com/BmorRailsSchool"><img class="icon" src="/rails_tutorial/assets/icons/twitter.png"></a> 
+  </div>
+</footer>
+</body>
+</html>
+
