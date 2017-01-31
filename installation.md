@@ -4,25 +4,53 @@ layout: rails_installation
 
 ## Installation
 
-Pick your poison! We'll help you get Rails running on your machine.  If you _can_ meet the following requirements, that would be easier, but we'll do what we can if your computer is older.
+The steps you need to take to get your computer set up with Ruby and Rails depend on the operating system you're using. Scroll down until you see the operating system that matches your computer. 
 
-### Minimum Requirements
-<table>
-  <tr>
-    <th>OS</th><th>Version</th>
-  </tr>
-  <tr>
-    <td>Mac OS X</td><td>Lion (10.7)</td>
-  </tr>
-  <tr>
-    <td>Ubuntu Linux</td><td>13.04</td>
-  </tr>
-  <tr>
-    <td>Windows</td><td> Windows 7 Version 6.1 (Build 7601: Service Pack 1)</td>
-  </tr>
-</table>
+{% steps %}
+{% list %}
+### Mac OSX
+  You must have at least **Mac OS X Lion (10.7)**
 
-Please refer to the appropriate instructions for your system for a more complete description of the minimum requirements.
+  To check your operating system: 
+
+1.  Click the apple icon at the top left of your menu
+
+1.  Select "About This Mac"
+
+  When you've confirmed that your computer will work follow the [installation instructions for Mac OS X]({{site.baseurl}}/installation/mac_os/)
+{% endlist %}
+{% endsteps %}
+
+{% steps %}
+{% list %}
+### Windows 10 
+
+{% endlist %}
+{% endsteps %}
+
+{% steps %}
+{% list %}
+### Windows 8.1 
+
+{% endlist %}
+{% endsteps %}
+
+{% steps %}
+{% list %}
+### Windows 7
+You must have at least Windows 7 Version 6.1 (Build 7601: Service Pack 1)
+
+To check your operating system: 
+
+{% endlist %}
+{% endsteps %} 
+  
+{% steps %}
+{% list %}
+### Ubuntu 13.04 
+
+{% endlist %}
+{% endsteps %} 
 
 ### Guides
 {% for guide in site.installation %}
